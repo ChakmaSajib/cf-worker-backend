@@ -1,0 +1,9 @@
+{
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "aiyeen-backend",
+    "main": "src/server.ts",
+    "compatibility_date": "2026-03-14",
+    "compatibility_flags": [
+        "nodejs_compat"
+    ],
+}

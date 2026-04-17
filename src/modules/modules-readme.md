@@ -1,0 +1,1 @@
+Each module folder `(auth/, users/)` does NOT need `index.ts` because modules are self-contained — you never import across modules. They're registered directly in `main.ts`

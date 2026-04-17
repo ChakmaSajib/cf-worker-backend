@@ -1,0 +1,40 @@
+export class AppError extends Error {
+    constructor(
+        public message: string,
+        public statusCode: number = 500,
+        public code?: string,
+        public details?: any
+    ) {
+        super(message);
+        this.name = "AppError";
+        Object.setPrototypeOf(this, AppError.prototype);
+    }
+}
+
+export class ValidationError extends AppError {
+    constructor(message: string, details?: any) {
+        super(message, 400, "VALIDATION_ERROR", details);
+        this.name = "ValidationError";
+    }
+}
+
+export class AuthenticationError extends AppError {
+    constructor(message: string = "Unauthorized") {
+        super(message, 401, "UNAUTHORIZED");
+        this.name = "AuthenticationError";
+    }
+}
+
+export class ForbiddenError extends AppError {
+    constructor(message: string = "Forbidden") {
+        super(message, 403, "FORBIDDEN");
+        this.name = "ForbiddenError";
+    }
+}
+
+export class NotFoundError extends AppError {
+    constructor(resource: string = "Resource") {
+        super(`${resource} not found`, 404, "NOT_FOUND");
+        this.name = "NotFoundError";
+    }
+}
