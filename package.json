@@ -6,7 +6,13 @@
   "license": "MIT",
   "author": "Sajib Chakma <sajibchakmahust@gmail.com>",
   "description": "A Cloudflare Workers backend for managing API endpoints, built with Hono and Drizzle ORM.",
-  "keywords": ["cloudflare-workers", "backend", "hono", "drizzle-orm", "typescript"],
+  "keywords": [
+    "cloudflare-workers",
+    "backend",
+    "hono",
+    "drizzle-orm",
+    "typescript"
+  ],
   "packageManager": "pnpm@9.15.0",
   "engines": {
     "node": ">=24.14.0",
@@ -14,32 +20,30 @@
   },
   "main": "src/main.ts",
   "scripts": {
-    "dev":              "wrangler dev",
-    "dev:local":        "wrangler dev --local",
-
-    "deploy:staging":   "wrangler deploy --env staging",
-    "deploy:prod":      "wrangler deploy --env production",
-
-    "build":            "wrangler deploy --dry-run --outdir dist",
-    "types:gen":        "wrangler types",
-
-    "db:generate":      "drizzle-kit generate",
-    "db:studio":        "drizzle-kit studio",
-    "db:migrate:local":   "wrangler d1 migrations apply DB --local",
+    "dev": "wrangler dev",
+    "dev:local": "wrangler dev --local",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:prod": "wrangler deploy --env production",
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "types:gen": "wrangler types",
+    "db:generate": "drizzle-kit generate",
+    "db:studio": "drizzle-kit studio",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local",
     "db:migrate:staging": "wrangler d1 migrations apply DB --remote --env staging",
-    "db:migrate:prod":    "wrangler d1 migrations apply DB --remote --env production",
-
-    "lint":       "biome lint .",
-    "lint:fix":   "biome lint . --write",
-    "format":     "biome format . --write",
-    "check":      "biome check .",
-    "check:fix":  "biome check . --write",
-    "typecheck":  "tsc --noEmit",
-
-    "test":           "vitest run",
-    "test:watch":     "vitest watch",
-    "test:coverage":  "vitest run --coverage",
-
+    "db:migrate:prod": "wrangler d1 migrations apply DB --remote --env production",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --write",
+    "typecheck": "tsc --noEmit",
+    "validate": "biome check . && tsc --noEmit",
+    "knip": "knip",
+    "knip:fix": "knip --fix",
+    "prepare": "lefthook install",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run tests/unit",
+    "test:ui": "vitest --ui",
+    "test:integration": "vitest run tests/integration",
     "ci": "pnpm check && pnpm typecheck && pnpm test"
   },
   "dependencies": {
@@ -52,9 +56,16 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.12",
+    "@cloudflare/vitest-pool-workers": "^0.14.7",
     "@cloudflare/workers-types": "^4.20260416.2",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@vitest/coverage-v8": "^4.1.4",
     "drizzle-kit": "^0.31.10",
+    "knip": "^6.4.1",
+    "lefthook": "^2.1.6",
     "typescript": "^6.0.2",
+    "vite": "^8.0.8",
     "vitest": "^4.1.4",
     "wrangler": "^4.83.0"
   }

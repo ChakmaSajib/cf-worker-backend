@@ -1,9 +1,85 @@
 {
-    "$schema": "node_modules/wrangler/config-schema.json",
-    "name": "aiyeen-backend",
-    "main": "src/server.ts",
-    "compatibility_date": "2026-03-14",
-    "compatibility_flags": [
-        "nodejs_compat"
-    ],
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/schemas/wrangler.json",
+  "name": "worker-backend",
+  "main": "src/main.ts",
+  "compatibility_date": "2026-04-18",
+  "compatibility_flags": ["nodejs_compat_v2"],
+  "send_metrics": false,
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "limits": {
+    "cpu_ms": 50
+  },
+  "placement": {
+    "mode": "smart"
+  },
+  "vars": {
+    "ENVIRONMENT": "development",
+    "LOG_LEVEL": "debug"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "worker-backend-dev",
+      "database_id": "your-dev-database-id"
+    }
+  ],
+  "logpush": false,
+  "tail_consumers": [],
+  "env": {
+    "staging": {
+      "name": "worker-backend-staging",
+      "compatibility_date": "2026-04-18",
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "LOG_LEVEL": "info"
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "worker-backend-staging",
+          "database_id": "your-staging-database-id"
+        }
+      ],
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 0.5
+      },
+      "limits": {
+        "cpu_ms": 50
+      }
+    },
+    "production": {
+      "name": "worker-backend-production",
+      "compatibility_date": "2026-04-18",
+      "vars": {
+        "ENVIRONMENT": "production",
+        "LOG_LEVEL": "warn"
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "worker-backend-prod",
+          "database_id": "your-production-database-id"
+        }
+      ],
+      "routes": [
+        {
+          "pattern": "api.yourdomain.com/*",
+          "custom_domain": true
+        }
+      ],
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 0.1
+      },
+      "limits": {
+        "cpu_ms": 50
+      },
+      "logpush": true,
+      "usage_model": "standard"
+    }
+  }
 }
