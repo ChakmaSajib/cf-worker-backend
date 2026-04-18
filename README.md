@@ -42,6 +42,68 @@ pnpm install
 
 ---
 
+## Cloudflare Workers Setup
+
+### Environment Variables
+
+**Important:** In Cloudflare Workers, `process.env` does NOT work. Environment variables are accessed through the `env` parameter passed to your worker handler.
+
+#### For Development (Local)
+Create a `.env` file with:
+```bash
+# Database URL for drizzle-kit (build time only)
+DATABASE_URL=https://your-account-id.cloudflare.com/d1/databases/your-database-id
+
+# Secrets (set via wrangler)
+AUTH_SECRET=your-32-character-secret-key
+AUTH_REDIRECT_URL=http://localhost:8787/auth/callback
+```
+
+#### For Production
+Set secrets using Wrangler:
+```bash
+wrangler secret put AUTH_SECRET --env production
+wrangler secret put AUTH_REDIRECT_URL --env production
+```
+
+### Database Bindings
+
+Update `wrangler.json` with your actual resource IDs:
+```json
+{
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "aiyeen-db",
+      "database_id": "your-actual-database-id"
+    }
+  ]
+}
+```
+
+### Accessing Environment in Code
+
+```typescript
+// ✅ Correct: Use env parameter
+export default {
+  fetch: (request, env, ctx) => {
+    // Access D1 database
+    const db = createDb(env);
+
+    // Access secrets
+    const authSecret = env.AUTH_SECRET;
+
+    // Access KV namespace
+    const cache = env.SESSION_CACHE;
+  }
+}
+
+// ❌ Wrong: process.env doesn't work in Workers
+const secret = process.env.AUTH_SECRET; // undefined
+```
+
+---
+
 ## Project Structure
 
 ```
