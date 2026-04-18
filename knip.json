@@ -14,13 +14,7 @@
     "src/types/**",
     "src/utils/**"
   ],
-  "ignoreDependencies": [
-    "@hono/zod-openapi",
-    "better-auth",
-    "drizzle-orm",
-    "pino",
-    "zod"
-  ],
+  "ignoreDependencies": ["@hono/zod-openapi", "better-auth", "drizzle-orm", "pino", "zod"],
   "ignoreBinaries": ["check"],
   "ignoreExportsUsedInFile": true,
   "rules": {
